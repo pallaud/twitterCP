@@ -117,7 +117,9 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode,headers,response);
                 tweet = Tweet.fromJson(response);
-//                Log.d("TWEET",tweet.getBody());
+                OnComposeListener listener = (OnComposeListener) getActivity();
+                listener.onUpdateTimeline(tweet);
+                dismiss();
             }
 
             @Override
@@ -138,9 +140,6 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
                 break;
             case R.id.btnTweet:
                 postTweet();
-                OnComposeListener listener = (OnComposeListener) getActivity();
-                listener.onUpdateTimeline(tweet);
-                dismiss();
         }
     }
 

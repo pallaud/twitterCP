@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.codepath.apps.twitterapp.TwitterApplication;
 import com.codepath.apps.twitterapp.TwitterClient;
@@ -19,15 +20,20 @@ import cz.msebera.android.httpclient.Header;
  * Created by pallaud on 6/29/16.
  */
 public class TweetLookupFragment extends TweetsListFragment {
-    private TwitterClient client;
+    private static TwitterClient client;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
-        //Get singleton client which can be used for requests
+    public static TweetLookupFragment newInstance(String query) {
+        TweetLookupFragment lookupFragment = new TweetLookupFragment();
         client = TwitterApplication.getRestClient();
-        populateTimeline();
+        Bundle args = new Bundle();
+        args.putString("q", query);
+        lookupFragment.setArguments(args);
+        return lookupFragment;
     }
 
     @Override
@@ -42,8 +48,8 @@ public class TweetLookupFragment extends TweetsListFragment {
     }
 
     //Send API request to get the timeline JSON, fill listview by creating tweet objects from JSON
-    private void populateTimeline() {
-        client.getHomeTimeline(new JsonHttpResponseHandler() {
+    public void populateTimeline() {
+        client.getSearchTweets(getArguments().getString("q"), new JsonHttpResponseHandler() {
             //JSON array since root is JSON array
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -51,7 +57,8 @@ public class TweetLookupFragment extends TweetsListFragment {
                 //dont need access to fragment anymore since this is fragment, call addAll on self
                 clear();
                 addAll(Tweet.fromJsonArray(response));
-                Log.d("SUCCESS",response.toString());
+                Log.d("SEARCH",response.toString());
+                Toast.makeText(getContext(), "made search", Toast.LENGTH_SHORT).show();
                 swipeContainer.setRefreshing(false);
             }
 
@@ -63,8 +70,4 @@ public class TweetLookupFragment extends TweetsListFragment {
         });
     }
 
-    @Override
-    public void appendTweet(Tweet tweet) {
-        super.appendTweet(tweet);
-    }
 }

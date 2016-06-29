@@ -52,17 +52,24 @@ public class TimelineActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                Intent i = new Intent(this, SearchActivity.class);
+                startActivity(i);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void compose(View view) {
-        showComposeDialog();
-    }
-
-    private void showComposeDialog() {
         FragmentManager fm = getSupportFragmentManager();
         ComposeDialogFragment frag = new ComposeDialogFragment();
         frag.show(fm, "fragment_compose");
+    }
+
+    public void search(View view) {
+
     }
 
     public void onUpdateTimeline(Tweet tweet) {

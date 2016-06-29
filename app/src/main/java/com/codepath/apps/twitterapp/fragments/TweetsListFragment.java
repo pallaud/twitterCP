@@ -62,7 +62,8 @@ public class TweetsListFragment extends Fragment {
     public void clear() { adapter.clear(); }
 
     public void appendTweet(Tweet tweet) {
-        adapter.add(tweet);
+        tweets.add(0,tweet);
+        adapter.notifyDataSetChanged();
         lvTweets.setSelection(0);
     }
 
