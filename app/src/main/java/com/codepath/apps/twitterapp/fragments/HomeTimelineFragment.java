@@ -2,7 +2,9 @@ package com.codepath.apps.twitterapp.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.View;
 
 import com.codepath.apps.twitterapp.TwitterApplication;
 import com.codepath.apps.twitterapp.TwitterClient;
@@ -28,18 +30,29 @@ public class HomeTimelineFragment extends TweetsListFragment {
         populateTimeline();
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                populateTimeline();
+            }
+        });
+    }
+
     //Send API request to get the timeline JSON, fill listview by creating tweet objects from JSON
     private void populateTimeline() {
         client.getHomeTimeline(new JsonHttpResponseHandler() {
-
             //JSON array since root is JSON array
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 //need to deserialize JSON, create models, load data into listview
                 //dont need access to fragment anymore since this is fragment, call addAll on self
+                clear();
                 addAll(Tweet.fromJsonArray(response));
                 Log.d("SUCCESS",response.toString());
-
+                swipeContainer.setRefreshing(false);
             }
 
             @Override

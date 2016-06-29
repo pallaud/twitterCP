@@ -13,6 +13,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
+
 /**
  * Created by pallaud on 6/27/16.
  *
@@ -49,7 +51,8 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         tvTagline.setText("@" + tweet.getUser().getScreenName());
         tvTimestamp.setText(tweet.getCreatedAt());
         ivProfileImage.setImageResource(0); //clear out old image for a recycled view
-        Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).into(ivProfileImage);
+        Picasso.with(getContext()).load(tweet.getUser()
+                .getProfileImageUrl()).transform(new RoundedCornersTransformation(10, 10)).into(ivProfileImage);
 
         // Return view to be inserted into list
         return convertView;

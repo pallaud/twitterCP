@@ -9,9 +9,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.twitterapp.R;
+import com.codepath.apps.twitterapp.fragments.ComposeDialogFragment;
 import com.codepath.apps.twitterapp.fragments.HomeTimelineFragment;
 import com.codepath.apps.twitterapp.fragments.MentionsTimelineFragment;
 
@@ -29,6 +31,7 @@ public class TimelineActivity extends AppCompatActivity {
 
         PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabStrip.setViewPager(viewPager);
+
     }
 
     public void onProfileView(MenuItem item) {
@@ -46,6 +49,16 @@ public class TimelineActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
+    }
+
+    public void compose(View view) {
+        showComposeDialog();
+    }
+
+    private void showComposeDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        ComposeDialogFragment frag = new ComposeDialogFragment();
+        frag.show(fm, "fragment_compose");
     }
 
     public class TweetsPagerAdapter extends FragmentPagerAdapter {

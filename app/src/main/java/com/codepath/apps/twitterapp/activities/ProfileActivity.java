@@ -1,14 +1,17 @@
 package com.codepath.apps.twitterapp.activities;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.apps.twitterapp.R;
 import com.codepath.apps.twitterapp.TwitterApplication;
 import com.codepath.apps.twitterapp.TwitterClient;
+import com.codepath.apps.twitterapp.fragments.ComposeDialogFragment;
 import com.codepath.apps.twitterapp.fragments.UserTimelineFragment;
 import com.codepath.apps.twitterapp.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -58,7 +61,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void populateProfileHeader(User user) {
-        TextView tvName = (TextView) findViewById(R.id.tvName);
+        TextView tvName = (TextView) findViewById(R.id.tvUsername);
         TextView tvTagline = (TextView) findViewById(R.id.tvTagline);
         TextView tvFollowers = (TextView) findViewById(R.id.tvFollowers);
         TextView tvFollowing = (TextView) findViewById(R.id.tvFollowing);
@@ -70,5 +73,15 @@ public class ProfileActivity extends AppCompatActivity {
         tvFollowers.setText(user.getFollowersCount() + " Followers");
         tvFollowing.setText(user.getFollowingCount() + " Following");
 
+    }
+
+    public void compose(View view) {
+        showComposeDialog();
+    }
+
+    private void showComposeDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        ComposeDialogFragment frag = new ComposeDialogFragment();
+        frag.show(fm, "fragment_compose");
     }
 }

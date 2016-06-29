@@ -5,5 +5,8 @@
     <string name="timeline">Home Timeline</string>
     <string name="connect">Connect to Twitter</string>
     <string name="login_label">Log in</string>
+    <string name="compose_hint">What\'s happening?</string>
+    <string name="tweet">Tweet</string>
+    <string name="char_remaining">Characters remaining: 140</string>
 
 </resources>
