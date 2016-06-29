@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.codepath.apps.twitterapp.R;
 import com.codepath.apps.twitterapp.TwitterApplication;
 import com.codepath.apps.twitterapp.TwitterClient;
+import com.codepath.apps.twitterapp.models.Tweet;
 import com.codepath.apps.twitterapp.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
@@ -38,9 +39,16 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
     private ImageButton ibCancel;
     private ImageView ivProfileImage;
     private TextView tvUsername;
+    private Tweet tweet;
     private User user;
 
     public ComposeDialogFragment() {
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+//        getActivity().getActionBar().hide();
     }
 
     @Override
@@ -58,10 +66,10 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 user = User.fromJson(response);
-                tvUsername.setText(user.getScreenName());
+                tvUsername.setText("@" + user.getScreenName());
                 ivProfileImage.setImageResource(0);
                 Picasso.with(getContext()).load(user.getProfileImageUrl())
-                        .transform(new RoundedCornersTransformation(10, 10)).into(ivProfileImage);
+                        .transform(new RoundedCornersTransformation(3, 3)).into(ivProfileImage);
             }
 
             @Override
@@ -108,6 +116,8 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode,headers,response);
+                tweet = Tweet.fromJson(response);
+//                Log.d("TWEET",tweet.getBody());
             }
 
             @Override
@@ -117,6 +127,9 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
         });
     }
 
+    public interface OnComposeListener {
+        void onUpdateTimeline(Tweet tweet);
+    }
 
     public void onClick(View v) {
         switch (v.getId()) {
@@ -125,6 +138,8 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
                 break;
             case R.id.btnTweet:
                 postTweet();
+                OnComposeListener listener = (OnComposeListener) getActivity();
+                listener.onUpdateTimeline(tweet);
                 dismiss();
         }
     }

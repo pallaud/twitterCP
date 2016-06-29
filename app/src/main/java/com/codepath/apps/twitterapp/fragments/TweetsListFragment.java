@@ -33,6 +33,7 @@ public class TweetsListFragment extends Fragment {
         tweets = new ArrayList<Tweet>();
         //adapter takes context (activity) , data source
         adapter = new TweetsArrayAdapter(getActivity(),tweets);
+
     }
 
     //inflation logic
@@ -59,6 +60,11 @@ public class TweetsListFragment extends Fragment {
     }
 
     public void clear() { adapter.clear(); }
+
+    public void appendTweet(Tweet tweet) {
+        adapter.add(tweet);
+        lvTweets.setSelection(0);
+    }
 
 
 }

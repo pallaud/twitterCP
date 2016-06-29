@@ -25,18 +25,38 @@ public class ProfileActivity extends AppCompatActivity {
 
     TwitterClient client;
     User user;
+    String screen_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        user = (User) getIntent().getSerializableExtra("user");
+        if(user != null) {
+            populateProfileHeader(user);
+            screen_name = user.getScreenName();
+        }
+
+        if(savedInstanceState == null) {
+            if(screen_name == null) {
+                getUser();
+            }
+            UserTimelineFragment fragmentUserTimeline = UserTimelineFragment.newInstance(screen_name);
+            //display fragment within this activitiy (dynamically)
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.flContainer, fragmentUserTimeline);
+            ft.commit();
+        }
+
+    }
+
+    private void getUser() {
         client = TwitterApplication.getRestClient();
         client.getUserInfo(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 user = User.fromJson(response);
-                getSupportActionBar().setTitle("@" + user.getScreenName());
                 populateProfileHeader(user);
             }
 
@@ -46,21 +66,10 @@ public class ProfileActivity extends AppCompatActivity {
             }
 
         });
-
-        //get screen name from timeline activity
-        String screenName = getIntent().getStringExtra("screen_name");
-
-        if(savedInstanceState == null) {
-            UserTimelineFragment fragmentUserTimeline = UserTimelineFragment.newInstance(screenName);
-            //display fragment within this activitiy (dynamically)
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flContainer, fragmentUserTimeline);
-            ft.commit();
-        }
-
     }
 
     private void populateProfileHeader(User user) {
+        getSupportActionBar().setTitle("@" + user.getScreenName());
         TextView tvName = (TextView) findViewById(R.id.tvUsername);
         TextView tvTagline = (TextView) findViewById(R.id.tvTagline);
         TextView tvFollowers = (TextView) findViewById(R.id.tvFollowers);

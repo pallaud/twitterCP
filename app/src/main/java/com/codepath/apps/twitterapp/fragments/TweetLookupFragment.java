@@ -16,9 +16,9 @@ import org.json.JSONArray;
 import cz.msebera.android.httpclient.Header;
 
 /**
- * Created by pallaud on 6/27/16.
+ * Created by pallaud on 6/29/16.
  */
-public class HomeTimelineFragment extends TweetsListFragment {
+public class TweetLookupFragment extends TweetsListFragment {
     private TwitterClient client;
 
     @Override

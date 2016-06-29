@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -13,11 +12,15 @@ import android.view.View;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.twitterapp.R;
+import com.codepath.apps.twitterapp.SmartFragmentStatePagerAdapter;
 import com.codepath.apps.twitterapp.fragments.ComposeDialogFragment;
 import com.codepath.apps.twitterapp.fragments.HomeTimelineFragment;
 import com.codepath.apps.twitterapp.fragments.MentionsTimelineFragment;
+import com.codepath.apps.twitterapp.models.Tweet;
 
-public class TimelineActivity extends AppCompatActivity {
+public class TimelineActivity extends AppCompatActivity
+        implements ComposeDialogFragment.OnComposeListener {
+    private TweetsPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +30,8 @@ public class TimelineActivity extends AppCompatActivity {
         //Get viewpager, set viewpager adapter, find pager sliding tabs, attach pager tabs to viewpager
         //viewpager indicator displays which page you're on within viewpager (top bar)
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new TweetsPagerAdapter(getSupportFragmentManager()));
+        adapter = new TweetsPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
 
         PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabStrip.setViewPager(viewPager);
@@ -61,7 +65,13 @@ public class TimelineActivity extends AppCompatActivity {
         frag.show(fm, "fragment_compose");
     }
 
-    public class TweetsPagerAdapter extends FragmentPagerAdapter {
+    public void onUpdateTimeline(Tweet tweet) {
+        HomeTimelineFragment fragmentHomeTweets =
+                (HomeTimelineFragment) adapter.getRegisteredFragment(0);
+        fragmentHomeTweets.appendTweet(tweet);
+    }
+
+    public class TweetsPagerAdapter extends SmartFragmentStatePagerAdapter {
 
         final int PAGE_COUNT = 2;
         private String[] tabTitles = { "Home", "Mentions"};
