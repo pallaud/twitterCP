@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="twitterWhite" format="color"/>
+    <attr name="twitterBlue" format="color"/>
+    <attr name="twitterBlack" format="color"/>
+    <attr name="twitterGray" format="color"/>
+    <attr name="twitterLightGray" format="color"/>
+
+</resources>

@@ -7,16 +7,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.apps.twitterapp.activities.ProfileActivity;
 import com.codepath.apps.twitterapp.models.Tweet;
 import com.codepath.apps.twitterapp.models.User;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
+import cz.msebera.android.httpclient.Header;
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 /**
@@ -51,15 +56,30 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         TextView tvBody = (TextView) convertView.findViewById(R.id.tvBody);
         final TextView tvTagline = (TextView) convertView.findViewById(R.id.tvTagline);
         TextView tvTimestamp = (TextView) convertView.findViewById(R.id.tvTimestamp);
+        final TextView tvRetweetCount = (TextView) convertView.findViewById(R.id.tvRetweetCount);
+        final TextView tvFavoriteCount = (TextView) convertView.findViewById(R.id.tvFavoriteCount);
+        final ImageButton ibRetweet = (ImageButton) convertView.findViewById(R.id.ibRetweet);
+        final ImageButton ibFavorite = (ImageButton) convertView.findViewById(R.id.ibFavorite);
 
         // Populate data into views
         tvUsername.setText(tweet.getUser().getName());
         tvBody.setText(tweet.getBody());
         tvTagline.setText("@" + tweet.getUser().getScreenName());
         tvTimestamp.setText(tweet.getCreatedAt());
+        tvRetweetCount.setText(tweet.getRetweetCount());
+        tvFavoriteCount.setText(tweet.getFavoriteCount());
+
+        ibFavorite.setImageResource(0);
+        if(tweet.getFavorited()) { ibFavorite.setImageResource(R.drawable.ic_favorite_pressed); }
+        else { ibFavorite.setImageResource(R.drawable.ic_favorite); }
+
+        ibRetweet.setImageResource(0);
+        if(tweet.getRetweeted()) { ibRetweet.setImageResource(R.drawable.ic_retweet_pressed); }
+        else { ibRetweet.setImageResource(R.drawable.ic_retweet); }
+
         ivProfileImage.setImageResource(0); //clear out old image for a recycled view
         Picasso.with(getContext()).load(tweet.getUser()
-                .getProfileImageUrl()).transform(new RoundedCornersTransformation(10, 10)).into(ivProfileImage);
+                .getProfileImageUrl()).transform(new RoundedCornersTransformation(3,3)).into(ivProfileImage);
 
         ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +91,58 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
             }
         });
 
+        ibFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                favorite(tweet);
+                tvFavoriteCount.setText(tweet.getFavoriteCount());
+                ibFavorite.setImageResource(R.drawable.ic_favorite_pressed);
+            }
+        });
+
+        ibRetweet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                retweet(tweet);
+                tvFavoriteCount.setText(tweet.getRetweetCount());
+                ibRetweet.setImageResource(R.drawable.ic_retweet_pressed);
+            }
+        });
+
         // Return view to be inserted into list
         return convertView;
     }
+
+    public void favorite(Tweet tweet) {
+        TwitterClient client = TwitterApplication.getRestClient();
+        client.postFavorite(Long.toString(tweet.getId()), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d("DEBUG", responseString);
+            }
+
+        });
+    }
+
+    public void retweet(Tweet tweet) {
+        TwitterClient client = TwitterApplication.getRestClient();
+        client.postRetweet(Long.toString(tweet.getId()), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject) {
+                Log.d("DEBUG", throwable.getMessage());
+            }
+
+        });
+    }
+
 }

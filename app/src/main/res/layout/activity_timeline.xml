@@ -11,6 +11,7 @@
         android:id="@+id/tabs"
         app:pstsShouldExpand="true"
         app:pstsTextAllCaps="true"
+        app:pstsIndicatorColor="?attr/twitterBlue"
         android:layout_width="match_parent"
         android:layout_height="48dp" />
 
@@ -19,6 +20,6 @@
         android:layout_below="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white" />
+        android:background="?attr/twitterWhite" />
 
 </RelativeLayout>

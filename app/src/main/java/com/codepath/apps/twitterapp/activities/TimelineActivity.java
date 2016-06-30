@@ -1,6 +1,8 @@
 package com.codepath.apps.twitterapp.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -26,6 +28,11 @@ public class TimelineActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.ic_twitter_logo);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 
         //Get viewpager, set viewpager adapter, find pager sliding tabs, attach pager tabs to viewpager
         //viewpager indicator displays which page you're on within viewpager (top bar)
@@ -66,10 +73,6 @@ public class TimelineActivity extends AppCompatActivity
         FragmentManager fm = getSupportFragmentManager();
         ComposeDialogFragment frag = new ComposeDialogFragment();
         frag.show(fm, "fragment_compose");
-    }
-
-    public void search(View view) {
-
     }
 
     public void onUpdateTimeline(Tweet tweet) {

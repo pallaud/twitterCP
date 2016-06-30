@@ -1,5 +1,7 @@
 package com.codepath.apps.twitterapp.activities;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,6 +22,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -31,6 +34,11 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.ic_twitter_logo);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 
         user = (User) getIntent().getSerializableExtra("user");
         if(user != null) {
@@ -71,14 +79,17 @@ public class ProfileActivity extends AppCompatActivity {
     private void populateProfileHeader(User user) {
         getSupportActionBar().setTitle("@" + user.getScreenName());
         TextView tvName = (TextView) findViewById(R.id.tvUsername);
-        TextView tvTagline = (TextView) findViewById(R.id.tvTagline);
+        TextView tvScreenName = (TextView) findViewById(R.id.tvTagline);
+        TextView tvBody = (TextView) findViewById(R.id.tvBody);
         TextView tvFollowers = (TextView) findViewById(R.id.tvFollowers);
         TextView tvFollowing = (TextView) findViewById(R.id.tvFollowing);
         ImageView ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
         ivProfileImage.setImageResource(0);
-        Picasso.with(this).load(user.getProfileImageUrl()).into(ivProfileImage);
+        Picasso.with(this).load(user.getProfileImageUrl()).
+                transform(new RoundedCornersTransformation(3,3)).into(ivProfileImage);
         tvName.setText(user.getName());
-        tvTagline.setText(user.getTagline());
+        tvScreenName.setText("@"+user.getScreenName());
+        tvBody.setText(user.getTagline());
         tvFollowers.setText(user.getFollowersCount() + " Followers");
         tvFollowing.setText(user.getFollowingCount() + " Following");
 

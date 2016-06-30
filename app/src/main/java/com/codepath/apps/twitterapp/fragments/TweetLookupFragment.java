@@ -5,14 +5,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.codepath.apps.twitterapp.TwitterApplication;
 import com.codepath.apps.twitterapp.TwitterClient;
 import com.codepath.apps.twitterapp.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -20,45 +20,26 @@ import cz.msebera.android.httpclient.Header;
  * Created by pallaud on 6/29/16.
  */
 public class TweetLookupFragment extends TweetsListFragment {
-    private static TwitterClient client;
+    private TwitterClient client;
+    private String query;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    public static TweetLookupFragment newInstance(String query) {
-        TweetLookupFragment lookupFragment = new TweetLookupFragment();
         client = TwitterApplication.getRestClient();
-        Bundle args = new Bundle();
-        args.putString("q", query);
-        lookupFragment.setArguments(args);
-        return lookupFragment;
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+    public void updateSearchResult(String query) {
+        this.query = query;
+        client.getSearchTweets(query, new JsonHttpResponseHandler() {
             @Override
-            public void onRefresh() {
-                populateTimeline();
-            }
-        });
-    }
-
-    //Send API request to get the timeline JSON, fill listview by creating tweet objects from JSON
-    public void populateTimeline() {
-        client.getSearchTweets(getArguments().getString("q"), new JsonHttpResponseHandler() {
-            //JSON array since root is JSON array
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                //need to deserialize JSON, create models, load data into listview
-                //dont need access to fragment anymore since this is fragment, call addAll on self
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 clear();
-                addAll(Tweet.fromJsonArray(response));
-                Log.d("SEARCH",response.toString());
-                Toast.makeText(getContext(), "made search", Toast.LENGTH_SHORT).show();
+                try {
+                    addAll(Tweet.fromJsonArray(response.getJSONArray("statuses")));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 swipeContainer.setRefreshing(false);
             }
 
@@ -69,5 +50,19 @@ public class TweetLookupFragment extends TweetsListFragment {
 
         });
     }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        updateSearchResult(query);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                updateSearchResult(query);
+            }
+        });
+    }
+
+
 
 }

@@ -11,6 +11,16 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:actionBarStyle">@style/ActionBar</item>
+        <item name="twitterBlack">#292f33</item>
+        <item name="twitterBlue">#55acee</item>
+        <item name="twitterGray">#66757f</item>
+        <item name="twitterWhite">#ffffff</item>
+    </style>
+    
+    <style name="ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@android:color/white</item>
+        <item name="android:shadowColor">#aab8c2</item>
     </style>
 
 </resources>
