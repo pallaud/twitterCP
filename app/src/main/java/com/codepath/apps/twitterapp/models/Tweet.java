@@ -100,6 +100,7 @@ public class Tweet implements Serializable {
         return tweets;
     }
 
+    //Format time
     public static String getTimeDifference(String rawJsonDate) {
         String time = "";
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";

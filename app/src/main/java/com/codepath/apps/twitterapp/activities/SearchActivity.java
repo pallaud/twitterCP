@@ -25,11 +25,13 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        //Customize action bar colors
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.drawable.ic_twitter_logo);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#55acee")));
 
+        //Setup fragment transaction for search fragment
         lookupFragment = new TweetLookupFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.flContainer, lookupFragment);
@@ -51,7 +53,7 @@ public class SearchActivity extends AppCompatActivity {
         searchItem.expandActionView();
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            // When a search is made, calls fetchArticles to make new request
+            // When a search is made, uses fragment to make new request
             @Override
             public boolean onQueryTextSubmit(String query) {
                 lookupFragment.updateSearchResult(query);

@@ -17,11 +17,16 @@
         <item name="twitterGray">#66757f</item>
         <item name="twitterWhite">#ffffff</item>
         <item name="android:buttonStyle">@style/TwitterButton</item>
+        <item name="android:actionBarWidgetTheme">@style/MyActionBarWidgetTheme</item>
     </style>
     
     <style name="ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">@android:color/white</item>
         <item name="android:shadowColor">#aab8c2</item>
+    </style>
+
+    <style name="MyActionBarWidgetTheme" parent="@android:style/Theme.Holo">
+        <item name="android:textColor">#55acee</item>
     </style>
 
     <style name="TwitterButton" parent="android:Widget.Button">

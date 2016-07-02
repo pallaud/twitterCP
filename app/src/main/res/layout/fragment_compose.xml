@@ -36,7 +36,7 @@
         android:id="@+id/tvCharCount"
         android:textSize="15sp"
         android:textColor="?attr/twitterGray"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/line"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -53,6 +53,8 @@
         android:layout_height="wrap_content"
         android:text="@string/tweet"
         android:id="@+id/btnTweet"
+        android:textColor="@android:color/white"
+        android:background="?attr/twitterBlue"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />

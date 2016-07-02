@@ -29,6 +29,7 @@ public class TweetLookupFragment extends TweetsListFragment {
         client = TwitterApplication.getRestClient();
     }
 
+    //Makes request after getting query and checking that it is not null
     public void updateSearchResult(String query) {
         this.query = query;
         client.getSearchTweets(query, new JsonHttpResponseHandler() {
@@ -62,7 +63,5 @@ public class TweetLookupFragment extends TweetsListFragment {
             }
         });
     }
-
-
 
 }

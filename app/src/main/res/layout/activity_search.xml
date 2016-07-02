@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     tools:context="com.codepath.apps.twitterapp.activities.SearchActivity">
 
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,7 +12,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true">
-
-
     </FrameLayout>
+
 </RelativeLayout>

@@ -35,11 +35,13 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        //Customize action bar colors
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.drawable.ic_twitter_logo);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 
+        //Check if getting self profile or other user's profile
         user = (User) getIntent().getSerializableExtra("user");
         if(user != null) {
             populateProfileHeader(user);
@@ -108,7 +110,6 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
-        //Back transitions are opposite of starting transitions
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

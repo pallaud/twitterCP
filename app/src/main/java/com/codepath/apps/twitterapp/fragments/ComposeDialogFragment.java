@@ -78,6 +78,7 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
 
         });
 
+        //find views
         tvUsername = (TextView) view.findViewById(R.id.tvUsername);
         ivProfileImage = (ImageView) view.findViewById(R.id.ivProfileImage);
         etStatus = (EditText) view.findViewById(R.id.etStatus);
@@ -85,7 +86,7 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
         tvCharCount = (TextView) view.findViewById(R.id.tvCharCount);
         btnTweet = (Button) view.findViewById(R.id.btnTweet);
 
-        // Show soft keyboard automatically and request focus to field
+        //Set up character count
         etStatus.requestFocus();
         etStatusWatcher = new TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -109,6 +110,7 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
     }
 
 
+    //Make request and update timeline
     public void postTweet() {
         TwitterClient client = TwitterApplication.getRestClient();
         client.postStatus(etStatus.getText().toString(), new JsonHttpResponseHandler() {

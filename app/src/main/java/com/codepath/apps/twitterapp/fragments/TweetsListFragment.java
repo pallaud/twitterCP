@@ -1,6 +1,5 @@
 package com.codepath.apps.twitterapp.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,13 +7,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.codepath.apps.twitterapp.R;
 import com.codepath.apps.twitterapp.TweetsArrayAdapter;
-import com.codepath.apps.twitterapp.activities.DetailActivity;
 import com.codepath.apps.twitterapp.models.Tweet;
 
 import java.util.ArrayList;
@@ -48,15 +44,6 @@ public class TweetsListFragment extends Fragment {
 
         lvTweets = (ListView) view.findViewById(R.id.lvTweets);
         lvTweets.setAdapter(adapter);
-        lvTweets.setOnItemClickListener(new ListView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), "clicked", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(getContext(), DetailActivity.class);
-                i.putExtra("tweet",(Tweet) tweets.get(position));
-                startActivity(i);
-            }
-        });
 
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,

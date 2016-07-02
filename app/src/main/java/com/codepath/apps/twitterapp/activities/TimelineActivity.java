@@ -32,6 +32,7 @@ public class TimelineActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
 
+        //Customize action bar colors
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.drawable.ic_twitter_logo);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
@@ -48,8 +49,8 @@ public class TimelineActivity extends AppCompatActivity
 
     }
 
+    //Launch profile view
     public void onProfileView(MenuItem item) {
-        //Launch profile view
         Intent i = new Intent(this, ProfileActivity.class);
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -72,6 +73,7 @@ public class TimelineActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
+                //Start search activity
                 Intent i = new Intent(this, SearchActivity.class);
                 startActivity(i);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -81,12 +83,14 @@ public class TimelineActivity extends AppCompatActivity
         }
     }
 
+    //Launch compose fragment
     public void compose(View view) {
         FragmentManager fm = getSupportFragmentManager();
         ComposeDialogFragment frag = new ComposeDialogFragment();
         frag.show(fm, "fragment_compose");
     }
 
+    //Launch home timeline fragment
     public void onUpdateTimeline(Tweet tweet) {
         HomeTimelineFragment fragmentHomeTweets =
                 (HomeTimelineFragment) adapter.getRegisteredFragment(0);
@@ -103,6 +107,7 @@ public class TimelineActivity extends AppCompatActivity
         miActionProgressItem.setVisible(false);
     }
 
+    //Adapter for sliding tabs
     public class TweetsPagerAdapter extends SmartFragmentStatePagerAdapter implements PagerSlidingTabStrip.IconTabProvider{
 
         final int PAGE_COUNT = 2;
