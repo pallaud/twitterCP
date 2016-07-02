@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.Locale;
  *
  * This class should encapsulate attributes of tweets. It parses and stores the JSON data.
  */
-public class Tweet {
+public class Tweet implements Serializable {
 
     //Attributes
     private String body;
@@ -26,6 +27,7 @@ public class Tweet {
     private int retweetCount;
     private boolean favorited;
     private boolean retweeted;
+    private String imgUrl;
 
     public boolean getFavorited() { return favorited; }
 
@@ -55,6 +57,8 @@ public class Tweet {
         return id;
     }
 
+    public String getImgUrl() { return imgUrl; }
+
     //Deserialize JSON & build tweet object
     //Extract values, store, return
     public static Tweet fromJson(JSONObject jsonObject) {
@@ -68,6 +72,10 @@ public class Tweet {
             tweet.retweetCount = jsonObject.getInt("retweet_count");
             tweet.favorited = jsonObject.getBoolean("favorited");
             tweet.retweeted = jsonObject.getBoolean("retweeted");
+            JSONObject entities = jsonObject.getJSONObject("entities");
+            if(entities.has("media")) {
+                tweet.imgUrl = entities.getJSONArray("media").getJSONObject(0).getString("media_url_https");
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

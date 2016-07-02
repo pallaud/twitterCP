@@ -50,7 +50,8 @@
             android:name=".activities.TimelineActivity"
             android:label="" />
         <activity android:name=".activities.ProfileActivity" />
-        <activity android:name=".activities.SearchActivity"></activity>
+        <activity android:name=".activities.SearchActivity" />
+        <activity android:name=".activities.DetailActivity"></activity>
     </application>
 
 </manifest>

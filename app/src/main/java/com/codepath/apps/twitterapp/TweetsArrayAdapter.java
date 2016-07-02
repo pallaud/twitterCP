@@ -1,5 +1,6 @@
 package com.codepath.apps.twitterapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -60,6 +61,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         final TextView tvFavoriteCount = (TextView) convertView.findViewById(R.id.tvFavoriteCount);
         final ImageButton ibRetweet = (ImageButton) convertView.findViewById(R.id.ibRetweet);
         final ImageButton ibFavorite = (ImageButton) convertView.findViewById(R.id.ibFavorite);
+        ImageView ivImg = (ImageView) convertView.findViewById(R.id.ivImg);
 
         // Populate data into views
         tvUsername.setText(tweet.getUser().getName());
@@ -68,6 +70,12 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         tvTimestamp.setText(tweet.getCreatedAt());
         tvRetweetCount.setText(tweet.getRetweetCount());
         tvFavoriteCount.setText(tweet.getFavoriteCount());
+
+        ivImg.setImageResource(0);
+        if(tweet.getImgUrl() != null) {
+            Picasso.with(getContext()).load(tweet.getImgUrl()).transform(new RoundedCornersTransformation(7,0))
+                    .into(ivImg);
+        }
 
         ibFavorite.setImageResource(0);
         if(tweet.getFavorited()) { ibFavorite.setImageResource(R.drawable.ic_favorite_pressed); }
@@ -86,8 +94,8 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
             public void onClick(View v) {
                 Intent i = new Intent(context, ProfileActivity.class);
                 i.putExtra("user", user);
-                Log.d("NAME",user.getScreenName());
                 context.startActivity(i);
+                ((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 

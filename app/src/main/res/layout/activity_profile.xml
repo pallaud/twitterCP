@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activities.ProfileActivity">
 
     <RelativeLayout
@@ -16,74 +16,95 @@
         android:layout_alignParentEnd="true"
         android:id="@+id/rlUserHeader">
 
-        <ImageView
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:id="@+id/ivProfileImage"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="10dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:textStyle="bold"
-            android:textColor="?attr/twitterBlack"
-            android:id="@+id/tvUsername"
-            android:textSize="18dp"
-            android:layout_below="@+id/ivProfileImage"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            app:cardCornerRadius="2dp"
+            app:cardElevation="2dp"
+            app:cardPreventCornerOverlap="false"
+            app:contentPadding="0dp"
+            android:padding="10dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/tvTagline"
-            android:textColor="?attr/twitterGray"
-            android:layout_below="@+id/tvUsername"
-            android:layout_alignLeft="@+id/tvUsername"
-            android:layout_alignStart="@+id/tvUsername" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/tvBody"
-            android:textColor="?attr/twitterBlack"
-            android:layout_below="@+id/tvTagline"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/tvFollowing"
-            android:textColor="?attr/twitterGray"
-            android:layout_below="@+id/tvBody"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+                <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:id="@+id/ivProfileImage"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginBottom="10dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/tvFollowers"
-            android:layout_below="@+id/tvBody"
-            android:textColor="?attr/twitterGray"
-            android:layout_toRightOf="@+id/tvFollowing"
-            android:layout_toEndOf="@+id/tvFollowing"
-            android:layout_marginLeft="30dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Text"
+                    android:textStyle="bold"
+                    android:textColor="?attr/twitterBlack"
+                    android:id="@+id/tvUsername"
+                    android:textSize="18dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/ivProfileImage"
+                    android:layout_toEndOf="@+id/ivProfileImage" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Text"
+                    android:id="@+id/tvTagline"
+                    android:textColor="?attr/twitterGray"
+                    android:layout_below="@+id/tvUsername"
+                    android:layout_alignLeft="@+id/tvUsername"
+                    android:layout_alignStart="@+id/tvUsername" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Text"
+                    android:id="@+id/tvBody"
+                    android:autoLink="all"
+                    android:linksClickable="true"
+                    android:textColor="?attr/twitterBlack"
+                    android:layout_below="@+id/ivProfileImage"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginBottom="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Text"
+                    android:id="@+id/tvFollowing"
+                    android:textColor="?attr/twitterGray"
+                    android:layout_below="@+id/tvBody"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Text"
+                    android:id="@+id/tvFollowers"
+                    android:layout_below="@+id/tvBody"
+                    android:textColor="?attr/twitterGray"
+                    android:layout_toRightOf="@+id/tvFollowing"
+                    android:layout_toEndOf="@+id/tvFollowing"
+                    android:layout_marginLeft="30dp" />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/tvFollowing"
+            android:layout_below="@+id/card_view"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginTop="20dp"

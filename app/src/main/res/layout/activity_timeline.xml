@@ -12,6 +12,7 @@
         app:pstsShouldExpand="true"
         app:pstsTextAllCaps="true"
         app:pstsIndicatorColor="?attr/twitterBlue"
+        android:textColor="?attr/twitterBlue"
         android:layout_width="match_parent"
         android:layout_height="48dp" />
 

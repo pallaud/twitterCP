@@ -2,14 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp">
+    android:padding="10dp"
+    style="@style/AppTheme">
 
 
     <ImageView
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:id="@+id/ivProfileImage"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/tvUsername"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
@@ -23,20 +24,29 @@
         android:gravity="start"
         android:hint="@string/compose_hint"
         android:maxLength="140"
-        android:layout_marginTop="83dp"
+        android:layout_marginTop="51dp"
         android:layout_below="@+id/ivProfileImage"
-        android:layout_alignLeft="@+id/tvCharCount"
-        android:layout_alignStart="@+id/tvCharCount" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/char_remaining"
         android:id="@+id/tvCharCount"
-        android:textSize="12sp"
-        android:layout_alignBottom="@+id/btnTweet"
-        android:layout_alignLeft="@+id/ibCancel"
-        android:layout_alignStart="@+id/ibCancel" />
+        android:textSize="15sp"
+        android:textColor="?attr/twitterGray"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/line"
+        android:layout_above="@+id/btnTweet"
+        android:layout_marginBottom="5dp"
+        android:background="@android:color/darker_gray"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -45,9 +55,7 @@
         android:id="@+id/btnTweet"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:background="#55acee"
-        android:textColor="#ffffff" />
+        android:layout_alignParentEnd="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -64,11 +72,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
         android:id="@+id/tvUsername"
+        android:textColor="?attr/twitterGray"
+        android:textSize="11dp"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/ivProfileImage"
-        android:layout_toStartOf="@+id/ivProfileImage" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>

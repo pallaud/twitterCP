@@ -6,11 +6,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.twitterapp.R;
@@ -23,6 +25,7 @@ import com.codepath.apps.twitterapp.models.Tweet;
 public class TimelineActivity extends AppCompatActivity
         implements ComposeDialogFragment.OnComposeListener {
     private TweetsPagerAdapter adapter;
+    MenuItem miActionProgressItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,14 @@ public class TimelineActivity extends AppCompatActivity
         //Launch profile view
         Intent i = new Intent(this, ProfileActivity.class);
         startActivity(i);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        ProgressBar v =  (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -63,6 +74,7 @@ public class TimelineActivity extends AppCompatActivity
             case R.id.action_search:
                 Intent i = new Intent(this, SearchActivity.class);
                 startActivity(i);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -81,9 +93,20 @@ public class TimelineActivity extends AppCompatActivity
         fragmentHomeTweets.appendTweet(tweet);
     }
 
-    public class TweetsPagerAdapter extends SmartFragmentStatePagerAdapter {
+    public void showProgressBar() {
+        // Show progress item
+        miActionProgressItem.setVisible(true);
+    }
+
+    public void hideProgressBar() {
+        // Hide progress item
+        miActionProgressItem.setVisible(false);
+    }
+
+    public class TweetsPagerAdapter extends SmartFragmentStatePagerAdapter implements PagerSlidingTabStrip.IconTabProvider{
 
         final int PAGE_COUNT = 2;
+        private int[] tabIcons = {R.drawable.ic_home, R.drawable.ic_mentions};
         private String[] tabTitles = { "Home", "Mentions"};
 
         public TweetsPagerAdapter(FragmentManager fm) {
@@ -105,6 +128,11 @@ public class TimelineActivity extends AppCompatActivity
             } else {
                 return null;
             }
+        }
+
+        @Override
+        public int getPageIconResId(int position) {
+            return tabIcons[position];
         }
 
         //How many fragments there are

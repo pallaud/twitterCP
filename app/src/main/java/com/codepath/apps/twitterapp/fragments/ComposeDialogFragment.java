@@ -48,7 +48,6 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        getActivity().getActionBar().hide();
     }
 
     @Override
@@ -69,7 +68,7 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
                 tvUsername.setText("@" + user.getScreenName());
                 ivProfileImage.setImageResource(0);
                 Picasso.with(getContext()).load(user.getProfileImageUrl())
-                        .transform(new RoundedCornersTransformation(3, 3)).into(ivProfileImage);
+                        .transform(new RoundedCornersTransformation(3, 0)).into(ivProfileImage);
             }
 
             @Override
@@ -90,12 +89,12 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
         etStatus.requestFocus();
         etStatusWatcher = new TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                tvCharCount.setText("Characters remaining: 140");
+                tvCharCount.setText("140");
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //This sets a textview to the current length
-                tvCharCount.setText("Characters remaining: " + String.valueOf(140 - (s.length())));
+                tvCharCount.setText(String.valueOf(140 - (s.length())));
             }
 
             public void afterTextChanged(Editable s) {

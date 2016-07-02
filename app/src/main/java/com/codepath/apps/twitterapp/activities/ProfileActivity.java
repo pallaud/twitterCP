@@ -104,4 +104,11 @@ public class ProfileActivity extends AppCompatActivity {
         ComposeDialogFragment frag = new ComposeDialogFragment();
         frag.show(fm, "fragment_compose");
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        //Back transitions are opposite of starting transitions
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
 }
